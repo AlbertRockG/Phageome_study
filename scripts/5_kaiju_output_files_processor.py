@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# by Albertrock G
 """
 Created on Tue Aug 31 14:31:04 2021
-
-@author: AlbertrockG
+@author: Albert Rock G
 """
 import errno
 import argcomplete
@@ -13,26 +11,25 @@ import sys
 import argparse
 
 parser = argparse.ArgumentParser(
-    description=
-    """
+    description="""
 Extract the contigs, the taxid and virus name from the
 output of kaiju-addnames
 """
-    )
+)
 
 argcomplete.autocomplete(parser)
 
 required_args = parser.add_argument_group('required arguments')
 required_args.add_argument(
-    '-r', metavar='PATH', required = True,
+    '-r', metavar='PATH', required=True,
     help='Input the output file of kaiju-addnames with the extension .out'
-    )
+)
 
 required_args.add_argument(
-    '-o', default=sys.stdout,
-        metavar='PATH', required = True, help='Output directory'
-        )   
-if len(sys.argv)<=1:
+    '-o', default=sys.stdout, metavar='PATH', required=True,
+    help='Output directory'
+)
+if len(sys.argv) <= 1:
     parser.print_help(sys.stderr)
     sys.exit(1)
 else:
@@ -49,8 +46,12 @@ else:
             raise
     name = os.path.join(outdir, name_file)
 
-    print ("greping...")
-    res = os.system ("grep 'C' " + args.r + " | cut -f2,3,4 >" +name+"_taxid_virusnames.csv" )
+    print("greping...")
+    res = os.system(
+        "grep 'C' " + args.r + " | cut -f2,3,4 >" + name +
+        "_taxid_virusnames.csv"
+    )
+
     if res != 0:
-        print ("grep failed")
+        print("grep failed")
         exit(1)
